@@ -8,10 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -75,6 +72,23 @@ public class CmsPageRepositoryTest {
             cmsPageRepository.save(cmsPage);
         }
     }
+    //模糊查询
+    /*
+    第一步:创造查询条件
+        实例匹配创建实例
+     */
+    @Test
+    public  void testFindPageByExample(){
+
+        CmsPage cmsPage = new CmsPage();
+        cmsPage.setPageAliase("轮播");
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("pageAliase", ExampleMatcher.GenericPropertyMatchers.contains());
+        Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<CmsPage> all = cmsPageRepository.findAll(example, pageable);
+        System.out.println(all);
+    }
+
 }
 
 
