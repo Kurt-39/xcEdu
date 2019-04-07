@@ -96,4 +96,36 @@ public class PageService {
         }
     return new CmsPageResult(CommonCode.FAIL,null);
     }
+    //根据ID查找页面
+    public CmsPage findById(String siteId){
+       Optional<CmsPage> optional= cmsPageRepository.findById(siteId);
+       if (optional.isPresent()){
+           return optional.get();
+       }else {
+           return null;
+       }
+    }
+    //更新页面
+    public CmsPageResult update(String siteId,CmsPage cmsPage) {
+        //根据id查询cmsPage
+        CmsPage one = this.findById(siteId);
+        if (one != null) {
+            //更新所属站点
+            one.setSiteId(cmsPage.getSiteId());
+            //更新页面别名
+            one.setPageAliase(cmsPage.getPageAliase());
+            //更新页面名称
+            one.setPageName(cmsPage.getPageName());
+            //更新访问路径
+            one.setPageWebPath(cmsPage.getPageWebPath());
+            //更新物理路径
+            one.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
+            CmsPage save = cmsPageRepository.save(one);
+            if (save != null) {
+                return new CmsPageResult(CommonCode.SUCCESS, save);
+            }
+        }
+            return new CmsPageResult(CommonCode.FAIL, null);
+
+    }
 }

@@ -26,5 +26,17 @@ public class CmsPageController implements CmsPageControllerApi {
     public CmsPageResult add(@RequestBody CmsPage cmsPage){
         return pageService.addPage(cmsPage);
     }
+    //根据id查询
+    @Override
+    @GetMapping("/get/{id}")
+    public CmsPage findById(@PathVariable("id") String siteId){
+        return pageService.findById(siteId);
+    };
+    //保存
+    @Override
+    @PutMapping("/edit/{id}")
+    public CmsPageResult update(@PathVariable("id") String siteId,@RequestBody CmsPage cmsPage){
+        return pageService.update(siteId,cmsPage);
+    };
 
 }
