@@ -5,6 +5,7 @@ import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CmsPageController implements CmsPageControllerApi {
     };
     @PostMapping("/add")
     public CmsPageResult add(@RequestBody CmsPage cmsPage){
-        return pageService.addPage(cmsPage);
+       return pageService.addPage(cmsPage);
     }
     //根据id查询
     @Override
@@ -37,6 +38,14 @@ public class CmsPageController implements CmsPageControllerApi {
     @PutMapping("/edit/{id}")
     public CmsPageResult update(@PathVariable("id") String siteId,@RequestBody CmsPage cmsPage){
         return pageService.update(siteId,cmsPage);
-    };
+    }
+
+    @Override
+    @DeleteMapping("/delete/{id}")
+    public ResponseResult delete(@PathVariable("id") String id) {
+        return pageService.delete(id);
+    }
+
+    ;
 
 }
