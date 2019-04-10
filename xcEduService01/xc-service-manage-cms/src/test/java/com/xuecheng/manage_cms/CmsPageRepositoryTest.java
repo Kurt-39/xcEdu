@@ -17,6 +17,7 @@ import java.util.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class CmsPageRepositoryTest {
+
     @Autowired
     private CmsPageRepository cmsPageRepository;
    @Autowired
