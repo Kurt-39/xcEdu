@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EntityScan("com.xuecheng.framework.domain.cms")//扫描实体类
-@ComponentScan(basePackages={"com.xuecheng.manage_cms_client"})//扫描本项目下的所有类
 @ComponentScan(basePackages = {"com.xuecheng.framework"})
 public class ManageCmsClientApplication {
     public static void main(String[] args) {
