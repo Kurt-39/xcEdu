@@ -15,10 +15,10 @@ import java.util.Map;
 @Component
 public class ConsumerPostPage {
     private static final Logger LOGGER= LoggerFactory.getLogger(ConsumerPostPage.class);
-@Autowired
-    CmsPageRepository cmsPageRepository;
-@Autowired
-    PageService pageService;
+    @Autowired
+    private CmsPageRepository cmsPageRepository;
+    @Autowired
+    private PageService pageService;
 
 @RabbitListener(queues = {"${xuecheng.mq.queue}"})
     public void postPage(String msg){
