@@ -62,7 +62,7 @@ public class EsTest1 {
         //获得创建索引请求
         CreateIndexRequest indexRequest = new CreateIndexRequest("xc_course");
         //指定分片数,副本数
-        indexRequest.settings(Settings.builder().put("number_of_shards",1).put("number_of_replicas",0));
+        indexRequest.settings(Settings.builder().put("number_of_shards",2).put("number_of_replicas",1));
         //设置映射
         indexRequest.mapping("doc","{\n" +
                 "\"properties\": {\n" +
