@@ -1,12 +1,16 @@
 package com.xuecheng.manage_course.service;
 
+import com.alibaba.fastjson.JSON;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CourseMarket;
+import com.xuecheng.framework.domain.course.CoursePub;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
+import com.xuecheng.manage_course.dao.CourseMarketRepository;
 import com.xuecheng.manage_course.dao.TeachplanMapper;
 import com.xuecheng.manage_course.dao.TeachplanRepository;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +32,8 @@ public class CourseService {
 
     @Autowired
     CourseBaseRepository courseBaseRepository;
+    @Autowired
+    CourseMarketRepository courseMarketRepository;
     //查询课程计划
     public TeachplanNode findTeachplanList(String courseId){
         return teachplanMapper.selectList(courseId);
@@ -95,4 +101,27 @@ public class CourseService {
         return teachplanList.get(0).getId();
 
     }
+
+    //创建coursePub对象
+    private CoursePub createCoursePub(String id){
+        CoursePub coursePub = new CoursePub();
+        //根据课程id查询course_base
+        Optional<CourseBase> optional = courseBaseRepository.findById(id);
+        if (optional.isPresent()){
+            CourseBase courseBase = optional.get();
+            BeanUtils.copyProperties(courseBase,coursePub);
+        }
+        //根据课程id查询course_base
+        Optional<CourseMarket> optionalMarket = courseMarketRepository.findById(id);
+        if (optionalMarket.isPresent()){
+            CourseMarket courseMarket = optionalMarket.get();
+            BeanUtils.copyProperties(courseMarket,coursePub);
+        }
+        //课程计划查询
+        TeachplanNode teachplanNode = teachplanMapper.selectList(id);
+        String s = JSON.toJSONString(teachplanNode);
+        coursePub.setTeachplan(s);
+        return coursePub;
+    }
+
 }
